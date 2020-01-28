@@ -205,6 +205,23 @@ class GPModel(Model):
         pred_f_mean, pred_f_var = self._build_predict(Xnew)
         return self.likelihood.predict_mean_and_var(pred_f_mean, pred_f_var)
 
+    @autoflow((settings.float_type, [None, None]))
+    def predict_y_samples(self, Xnew, num_samples):
+        """
+        Compute the mean and variance of held-out data at the points Xnew
+        """
+        mean_samples, var_samples = self.predict_f_samples(Xnew, num_samples)
+
+        return self.likelihood.predict_mean_and_var(mean_samples, var_samples)
+
+
+tf.fill(tf.stack([tf.shape(Fmu)[0], 1]), np.array(i, dtype=np.int64))
+
+
+        pred_f_mean, pred_f_var = self._build_predict(Xnew)
+        return self.likelihood.predict_mean_and_var(pred_f_mean, pred_f_var)
+
+
     @autoflow((settings.float_type, [None, None]), (settings.float_type, [None, None]))
     def predict_density(self, Xnew, Ynew):
         """
