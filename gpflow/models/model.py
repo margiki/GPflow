@@ -205,7 +205,7 @@ class GPModel(Model):
         pred_f_mean, pred_f_var = self._build_predict(Xnew)
         return self.likelihood.predict_mean_and_var(pred_f_mean, pred_f_var)
 
-    @autoflow((settings.float_type, [None, None]))
+    @autoflow((settings.float_type, [None, None]), (tf.int32, []))
     def predict_y_samples(self, Xnew, num_samples):
         """
         Compute the mean and variance of held-out data at the points Xnew
